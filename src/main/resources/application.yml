@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: politician-llm-stream
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  profiles:
+    include: secret
+#    active: prod
+server:
+  port: 8111
+
+ai:
+  url: none
+  secret-key: none
