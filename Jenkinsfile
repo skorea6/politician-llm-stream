@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    options {
+        withFolderProperties()
+    }
     environment {
         SCRIPT_PATH = '/root/spring-main'
         SERVER_USER = 'root'
