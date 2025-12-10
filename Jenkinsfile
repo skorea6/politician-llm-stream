@@ -54,7 +54,7 @@ pipeline{
             steps {
                 sshagent(credentials: ['politicianLLMStream_pem_key']) {
                     script {
-                        def serverIPs = env.SERVER_IPS.split(',')
+                        def serverIPs = env.LLMSTREAM_SERVER_IPS.split(',')
                         serverIPs.each { ip ->
                             sh """
                                 scp ${SSH_OPTS} ./docker/docker-compose.blue.yml ${SERVER_USER}@${ip}:${SCRIPT_PATH}
