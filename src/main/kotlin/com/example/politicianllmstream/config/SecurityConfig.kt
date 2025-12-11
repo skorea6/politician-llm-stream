@@ -27,7 +27,7 @@ class SecurityConfig {
     @Bean
     fun corsWebFilter(): CorsWebFilter {
         val config = CorsConfiguration().apply {
-            allowedOrigins = listOf("http://localhost:3000")
+            allowedOrigins = listOf("http://localhost:3000", "https://ai.1000square.com")
             allowedMethods = listOf("*")
             allowedHeaders = listOf("*")
             allowCredentials = true
