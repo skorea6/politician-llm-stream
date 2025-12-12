@@ -46,7 +46,7 @@ class RagController(
             }
             .onErrorResume { e ->
                 // 클라이언트에게 메시지 보내기
-                Flux.just("응답에 지연이 생기고 있습니다. 잠시후에 다시 시도해주세요. ${e.message}")
+                Flux.just("응답에 지연이 생기고 있습니다. 잠시후에 다시 시도해주세요.")
             }
     }
 
