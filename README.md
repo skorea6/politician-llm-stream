@@ -21,3 +21,26 @@
 2. 여러 정치인 비교
 - 질문에서 여러 이름을 추출 -> 각 임베딩 생성 -> 복수 payload 기반 RAG 수행
 - 예: "윤석열과 이재명 비교해줘" / "이준석 vs 안철수 누가 더 젊어?"
+
+## 서비스 아키텍처 (구조)
+
+**React 프론트 → Spring WebFlux API → Python LLM(RAG) 서버 → Qdrant 벡터 DB** 로 구성된  
+'비동기 스트리밍 기반' 정치인 검색 AI 시스템입니다.
+
+```mermaid
+flowchart TD
+
+A[React 프론트] 
+    -->|SSE Streaming| B[Spring WebFlux API 서버]
+
+B -->|REST / SSE 요청 전달| C[Python LLM 서버]
+
+C -->|RAG 처리| D[OpenAI GPT 모델]
+C -->|벡터 검색| E[Qdrant Vector DB]
+
+D -->|LLM 응답| C
+E -->|검색 결과| C
+
+C -->|스트리밍 응답| B
+B -->|SSE Streaming| A
+
