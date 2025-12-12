@@ -1,6 +1,7 @@
 package com.example.politicianllmstream.controller
 
 import com.example.politicianllmstream.dto.RagRequest
+import com.example.politicianllmstream.service.RagLogService
 import com.example.politicianllmstream.service.RagService
 import com.example.politicianllmstream.service.RateLimitService
 import org.springframework.http.MediaType
@@ -15,6 +16,7 @@ import reactor.core.publisher.Flux
 @RequestMapping("/ai")
 class RagController(
     private val ragService: RagService,
+    private val ragLogService: RagLogService,
     private val rateLimitService: RateLimitService
 ) {
 
@@ -34,19 +36,17 @@ class RagController(
                 if (!allowed) {
                     Flux.just("1시간에 10회까지만 질의가 가능합니다.")
                 } else {
-                    ragService.askStream(req)
+                    val stream = ragService.askStream(req)
+                    val saveLogMono = ragLogService.saveLog(ip, req.query)
+
+                    stream.concatWith(
+                        saveLogMono.thenMany(Flux.empty())
+                    )
                 }
             }
-//            .onErrorResume { // SSE용 에러 처리
-//                Flux.just("응답에 지연이 생기고 있습니다. 잠시후에 다시 시도해주세요.")
-//            }
             .onErrorResume { e ->
-                // 로그 남기기
-                print(e)
-                print(e.message)
-
                 // 클라이언트에게 메시지 보내기
-                Flux.just("응답에 지연이 생기고 있습니다. 잠시후에 다시 시도해주세요. ${e.message}")
+                Flux.just("응답에 지연이 생기고 있습니다. 잠시후에 다시 시도해주세요.")
             }
     }
 }

@@ -13,7 +13,7 @@ class RateLimitService(
     private val ttl = Duration.ofHours(1)
 
     fun check(ip: String): Mono<Boolean> {
-        val key = "ip:$ip:limit"
+        val key = "llm-stream:ip:$ip:limit"
 
         return redis.opsForValue().increment(key)
             .flatMap { count ->
