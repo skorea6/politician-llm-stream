@@ -1,7 +1,7 @@
 # 정치인 검색 AI
 
 ## Demo URL
-- 서비스 Demo URL: [ai.1000square.com](https://ai.1000square.com)
+- 서비스 Demo URL: <a href="https://ai.1000square.com" target="_blank">ai.1000square.com</a>
 
 ## 서비스 특징
 * 대한민국 국회의원·정당·선거 데이터를 기반으로 한 정치인 전문 검색 LLM
