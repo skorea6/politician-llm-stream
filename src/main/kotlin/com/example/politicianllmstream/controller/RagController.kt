@@ -29,7 +29,7 @@ class RagController(
         exchange: ServerWebExchange
     ): Flux<String> {
 
-        val ip = exchange.request.remoteAddress?.address?.hostAddress ?: "unknown"
+        val ip = extractClientIp(exchange)
 
         return rateLimitService.check(ip)
             .flatMapMany { allowed ->
@@ -48,5 +48,21 @@ class RagController(
                 // 클라이언트에게 메시지 보내기
                 Flux.just("응답에 지연이 생기고 있습니다. 잠시후에 다시 시도해주세요.")
             }
+    }
+
+    fun extractClientIp(exchange: ServerWebExchange): String {
+        val headers = exchange.request.headers
+
+        val forwardedFor = headers.getFirst("X-Forwarded-For")
+        if (!forwardedFor.isNullOrBlank()) {
+            return forwardedFor.split(",")[0].trim()
+        }
+
+        val realIp = headers.getFirst("X-Real-IP")
+        if (!realIp.isNullOrBlank()) {
+            return realIp.trim()
+        }
+
+        return exchange.request.remoteAddress?.address?.hostAddress ?: "unknown"
     }
 }
