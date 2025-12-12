@@ -11,16 +11,7 @@
 * FastAPI 기반의 SSE Streaming 응답 지원
 * 현재는 OpenAI API 사용중이나 추후 Local LLM 사용 가능
 
-<img width="739" height="876" alt="정치인검색 AI_예시" src="https://github.com/user-attachments/assets/d50d16c3-6d10-4235-82ea-2a8ed0bf75c2" />
-
-## 주요 기능
-1. 이름 기반 정치인 검색
-- 사용자 질문에서 자동으로 이름을 추출하고, 벡터 임베딩(NamedVector)을 통해 가장 유사한 정치인을 검색
-- 예: "이재명은 누구야?" / "이준석 경력 알려줘"
-
-2. 여러 정치인 비교
-- 질문에서 여러 이름을 추출 -> 각 임베딩 생성 -> 복수 payload 기반 RAG 수행
-- 예: "윤석열과 이재명 비교해줘" / "이준석 vs 안철수 누가 더 젊어?"
+<img width="600" alt="정치인검색 AI_예시" src="https://github.com/user-attachments/assets/d50d16c3-6d10-4235-82ea-2a8ed0bf75c2" />
 
 ## 서비스 아키텍처 (구조)
 
@@ -43,4 +34,13 @@ E -->|검색 결과| C
 
 C -->|스트리밍 응답| B
 B -->|SSE Streaming| A
+```
 
+## 주요 기능
+1. 이름 기반 정치인 검색
+- 사용자 질문에서 자동으로 이름을 추출하고, 벡터 임베딩(NamedVector)을 통해 가장 유사한 정치인을 검색
+- 예: "이재명은 누구야?" / "이준석 경력 알려줘"
+
+2. 여러 정치인 비교
+- 질문에서 여러 이름을 추출 -> 각 임베딩 생성 -> 복수 payload 기반 RAG 수행
+- 예: "윤석열과 이재명 비교해줘" / "이준석 vs 안철수 누가 더 젊어?"
